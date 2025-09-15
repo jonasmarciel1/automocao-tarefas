@@ -1,0 +1,89 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  padding: 20px;
+}
+
+.container {
+  max-width: 500px;
+  margin: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+input {
+  width: 70%;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+button {
+  padding: 10px;
+}
+
+ul {
+  list-style: none;
+  border-bottom: 1px solid #ccc;
+}
+
+.concluida {
+  text-decoration: line-through;
+  color: gray;
+}
+
+#limparTarefas {
+  margin-top: 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#limparTarefas:hover {
+  background-color: #e60000;
+}
+
+body.claro {
+  background-color: #f4f4f4;
+  color: #000;
+}
+
+body.escuro {
+  background-color: #1e1e1e;
+  color: #fff;
+}
+
+body.escuro .container {
+  background-color: #2c2c2c;
+}
+
+#alternarTema {
+  margin-top: 10px;
+  background-color: #333;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+#alternarTema:hover {
+  background-color: #555;
+}
+
+#contadorTarefas {
+  margin-top: 15px;
+  font-weight: bold;
+}
+
+#filtros {
+  margin-top: 15px;
+}
+
+#filtros button {
+  margin-right: 5px;
+  padding: 8px;
+  cursor: pointer;
+}
