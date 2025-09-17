@@ -1,89 +1,204 @@
+/* ====== Design tokens ====== */
+:root {
+  --radius: 12px;
+  --shadow-1: 0 8px 30px rgba(0,0,0,.08);
+
+  --brand: 210 90% 56%;      /* azul-ciano */
+  --bg: 0 0% 100%;
+  --fg: 222 22% 10%;
+  --muted: 220 10% 40%;
+  --card: 0 0% 100%;
+  --border: 220 13% 91%;
+
+  --space-2: .5rem;
+  --space-3: .75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* Tipografia fluida */
+  --step-0: clamp(1rem, .95rem + .3vw, 1.1rem);
+  --step-1: clamp(1.25rem, 1.1rem + .8vw, 1.5rem);
+  --step-3: clamp(2rem, 1.6rem + 2vw, 2.6rem);
+}
+
+/* Tema: auto segue o SO; dark força escuro */
+@media (prefers-color-scheme: dark) {
+  [data-theme="auto"] {
+    --bg: 224 15% 9%;
+    --fg: 0 0% 100%;
+    --muted: 220 10% 70%;
+    --card: 224 15% 12%;
+    --border: 224 10% 20%;
+  }
+}
+[data-theme="dark"] {
+  --bg: 224 15% 9%;
+  --fg: 0 0% 100%;
+  --muted: 220 10% 70%;
+  --card: 224 15% 12%;
+  --border: 224 10% 20%;
+}
+
+* { box-sizing: border-box }
+html, body { height: 100% }
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
   margin: 0;
-  padding: 20px;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+  background: hsl(var(--bg));
+  color: hsl(var(--fg));
+  line-height: 1.5;
+  font-size: var(--step-0);
 }
 
-.container {
-  max-width: 500px;
-  margin: auto;
-  background: white;
-  padding: 20px;
-  border-radius: 8px;
+/* ====== Layout ====== */
+.container { max-width: 920px; margin-inline: auto; padding-inline: var(--space-4) }
+
+/* topbar ajustado */
+.topbar {
+  position: relative;
+  display: flex;
+  justify-content: flex-end; /* botão vai pra direita */
+  align-items: center;
+  padding: var(--space-6) 0;
+}
+.topbar .brand {
+  position: absolute;
+  left: 12%;
+  transform: translateX(-50%);
+  margin: 0;
+  text-align: center;
+  font-size: var(--step-1);
+  font-weight: 700;
 }
 
-input {
-  width: 70%;
-  padding: 10px;
-  margin-right: 10px;
+.accent { color: hsl(var(--brand)) }
+
+.app { display: grid; gap: var(--space-6); padding-bottom: var(--space-8) }
+
+.card {
+  background: hsl(var(--card));
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-1);
+  padding: var(--space-6);
 }
 
-button {
-  padding: 10px;
+.composer { display: grid; gap: var(--space-4) }
+.buttons { display: flex; gap: var(--space-3); flex-wrap: wrap }
+.filters { display: flex; gap: var(--space-3); flex-wrap: wrap }
+
+/* ====== Controles ====== */
+input[type="text"] {
+  width: 100%;
+  padding: .85rem 1rem;
+  border-radius: calc(var(--radius) - 4px);
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+  color: hsl(var(--fg));
+  outline: none;
+  box-shadow: inset 0 1px 0 rgba(0,0,0,.04);
+}
+input[type="text"]::placeholder { color: hsl(var(--muted)) }
+
+.btn {
+  --btn-bg: hsl(var(--card));
+  --btn-fg: hsl(var(--fg));
+  --btn-brd: hsl(var(--border));
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: .5rem;
+  padding: .7rem 1rem;
+  border-radius: calc(var(--radius) - 4px);
+  border: 1px solid var(--btn-brd);
+  background: var(--btn-bg);
+  color: var(--btn-fg);
+  cursor: pointer;
+  transition: transform .06s ease, box-shadow .18s ease, background-color .18s ease, border-color .18s ease;
+  will-change: transform;
+}
+.btn:hover { transform: translateY(-1px) }
+.btn:active { transform: translateY(0) }
+.btn.primary {
+  --btn-bg: hsl(var(--brand)); --btn-fg: white; --btn-brd: transparent;
+  box-shadow: 0 10px 30px hsl(var(--brand) / .35);
+}
+.btn.danger {
+  --btn-bg: hsl(0 84% 60%); --btn-fg: white; --btn-brd: transparent;
+  box-shadow: 0 10px 30px hsl(0 84% 60% / .35);
 }
 
-ul {
-  list-style: none;
-  border-bottom: 1px solid #ccc;
-}
-
-.concluida {
-  text-decoration: line-through;
-  color: gray;
-}
-
-#limparTarefas {
-  margin-top: 10px;
-  background-color: #ff4d4d;
-  color: white;
-  border: none;
-  padding: 10px;
+.icon-btn {
+  background: transparent;
+  border: 1px solid hsl(var(--border));
+  border-radius: 999px;
+  padding: .5rem .7rem;
   cursor: pointer;
 }
 
-#limparTarefas:hover {
-  background-color: #e60000;
+.chip {
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+  color: hsl(var(--fg));
+  padding: .45rem .75rem;
+  border-radius: 999px;
+  cursor: pointer;
 }
-
-body.claro {
-  background-color: #f4f4f4;
-  color: #000;
-}
-
-body.escuro {
-  background-color: #1e1e1e;
+.chip[aria-pressed="true"] {
+  background: hsl(var(--brand));
   color: #fff;
+  border-color: transparent;
+  box-shadow: 0 8px 24px hsl(var(--brand) / .35);
 }
 
-body.escuro .container {
-  background-color: #2c2c2c;
+/* ====== Lista de tarefas ====== */
+.tarefas { list-style: none; margin: 0; padding: 0; display: grid; gap: .25rem }
+.task {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: .75rem;
+  align-items: center;
+  padding: .6rem .75rem;
+  border-radius: calc(var(--radius) - 6px);
+  transition: background-color .15s ease;
 }
+.task:hover { background: hsl(var(--border) / .35) }
 
-#alternarTema {
-  margin-top: 10px;
-  background-color: #333;
-  color: white;
-  border: none;
-  padding: 10px;
+.task input[type="checkbox"] {
+  width: 1.15rem; height: 1.15rem; cursor: pointer;
+  accent-color: hsl(var(--brand));
+}
+.task .text {
+  overflow-wrap: anywhere;
+}
+.task.done .text {
+  color: hsl(var(--muted));
+  text-decoration: line-through;
+}
+.task .del {
+  border: 1px solid hsl(var(--border));
+  background: transparent;
+  color: hsl(var(--fg));
+  border-radius: 8px;
+  padding: .25rem .5rem;
   cursor: pointer;
 }
+.task .del:hover { background: hsl(var(--border) / .5) }
 
-#alternarTema:hover {
-  background-color: #555;
+.counter {
+  margin-top: var(--space-4);
+  color: hsl(var(--muted));
+  font-size: .95em;
 }
 
-#contadorTarefas {
-  margin-top: 15px;
-  font-weight: bold;
+/* ====== Acessibilidade ====== */
+.sr-only {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0);
+  white-space: nowrap; border: 0;
 }
+:focus-visible { outline: 3px solid hsl(var(--brand)); outline-offset: 2px }
 
-#filtros {
-  margin-top: 15px;
-}
-
-#filtros button {
-  margin-right: 5px;
-  padding: 8px;
-  cursor: pointer;
-}
+/* ====== Footer ====== */
+.footer { padding: var(--space-8) 0; color: hsl(var(--muted)); text-align: center }

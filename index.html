@@ -1,34 +1,52 @@
-<!DOCTYPE html>
-<html lang="pt-br"></html>
+<!doctype html>
+<html lang="pt-BR" data-theme="auto">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Automoção de Tarefas</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Automação de Tarefas</title>
+  <meta name="description" content="Lista de tarefas com filtros, tema escuro/claro e persistência em localStorage." />
+  <meta name="theme-color" content="#0ea5e9" />
+  <link rel="icon" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-<div class="Container">
-    <h1>Minhas tarefas</h1>
-    <input type="text" id="novaTarefa" placeholder="Adicione uma nova tarefa.">
-    <button id="adicionarTarefa">Adicionar</button>
-    <button id="limparTarefas">Limpar Tarefas</button>
-    <button id="alternarTema">Alternar Tema</button>
-    <ul id="listaTarefas"></ul>
-    
-<div id="contadorTarefas">
-  Total: 0 | Concluídas: 0 | Pendentes: 0
-</div>
-</div>
+  <header class="topbar container">
+    <h1 class="brand">Minhas <span class="accent">Tarefas</span></h1>
+    <div class="top-actions">
+      <button id="alternarTema" class="icon-btn" aria-label="Alternar tema">🌓</button>
+    </div>
+  </header>
 
+  <main class="container app">
+    <section class="composer card" aria-labelledby="titulo-app">
+      <h2 id="titulo-app" class="sr-only">Gerenciador de tarefas</h2>
 
-<div id="filtros">
-  <button data-filtro="todas">Todas</button>
-  <button data-filtro="pendentes">Pendentes</button>
-  <button data-filtro="concluidas">Concluídas</button>
-</div>
+      <label class="sr-only" for="novaTarefa">Adicionar nova tarefa</label>
+      <input type="text" id="novaTarefa" placeholder="Adicione uma nova tarefa e pressione Enter" autocomplete="off" />
 
+      <div class="buttons">
+        <button id="adicionarTarefa" class="btn primary">Adicionar</button>
+        <button id="limparTarefas" class="btn danger" title="Remove todas as tarefas">Limpar Tarefas</button>
+      </div>
 
-<body class="claro">
-<script src="script.js"></script>
+      <div id="filtros" class="filters" role="toolbar" aria-label="Filtros">
+        <button type="button" data-filtro="todas" class="chip" aria-pressed="true">Todas</button>
+        <button type="button" data-filtro="pendentes" class="chip" aria-pressed="false">Pendentes</button>
+        <button type="button" data-filtro="concluidas" class="chip" aria-pressed="false">Concluídas</button>
+      </div>
+    </section>
+
+    <section class="list card" aria-labelledby="titulo-lista">
+      <h2 id="titulo-lista" class="sr-only">Lista de tarefas</h2>
+      <ul id="listaTarefas" class="tarefas" aria-live="polite" aria-relevant="additions removals"></ul>
+      <div id="contadorTarefas" class="counter" aria-live="polite">Total: 0 | Concluídas: 0 | Pendentes: 0</div>
+    </section>
+  </main>
+
+  <footer class="container footer">
+    <small>&copy; 2025 Jonas Marciel — HTML, CSS e JS puros.</small>
+  </footer>
+
+  <script type="module" src="script.js"></script>
 </body>
 </html>
