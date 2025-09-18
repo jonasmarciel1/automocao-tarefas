@@ -6,18 +6,14 @@ Este é um projeto simples de automação de tarefas desenvolvido com **HTML**, 
 
 ##  Funcionalidades
 
--  Adicionar tarefas
--  Marcar tarefas como concluídas
--  Limpar todas as tarefas
--  Alternar entre tema claro e escuro
--  Contador de tarefas (total, concluídas, pendentes)
--  Filtros de visualização (todas, pendentes, concluídas)
--  Salvamento automático das tarefas com `localStorage`
-- Ícones e animações para melhor experiência visual
-- Definir prioridade para tarefas (Alta, Média, Baixa) com indicação visual.
-- Reordenar tarefas com a função de arrastar e soltar (Drag and Drop).
-- Editar tarefas com um duplo clique no texto.
-- Interface com guia de "Como usar" para facilitar a utilização.
+- ✅ **Adicionar, editar e excluir** tarefas.
+- 💅 **Definir prioridades** (Alta, Média, Baixa) com indicadores visuais.
+- ↔️ **Reordenar tarefas** com uma interface intuitiva de arrastar e soltar (Drag and Drop).
+- 🎨 **Alternar entre tema claro e escuro**, com salvamento da preferência do usuário.
+- 💾 **Salvamento automático** das tarefas no navegador com `localStorage`.
+- 🔍 **Filtros de visualização** para tarefas (todas, pendentes, concluídas).
+- 📊 **Contador dinâmico** do status das tarefas.
+- 📚 **Guia de "Como usar"** integrado para novos usuários.
 
 
 ## Tecnologias Utilizadas
@@ -32,3 +28,4 @@ Este é um projeto simples de automação de tarefas desenvolvido com **HTML**, 
 
 
 Este projeto está sob a licença MIT. Isso significa que você pode usar, copiar, modificar e distribuir este código para qualquer finalidade, inclusive comercial, desde que mantenha os créditos ao autor original.
+
