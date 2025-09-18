@@ -15,7 +15,7 @@ Este é um projeto simples de automação de tarefas desenvolvido com **HTML**, 
 - 📊 **Contador dinâmico** do status das tarefas.
 - 📚 **Guia de "Como usar"** integrado para novos usuários.
 
-
+![Demonstração do Projeto](https://github.com/jonasmarciel1/automocao-tarefas/blob/main/demon.gif?raw=true)
 ## Tecnologias Utilizadas
 
 - HTML5
@@ -28,4 +28,5 @@ Este é um projeto simples de automação de tarefas desenvolvido com **HTML**, 
 
 
 Este projeto está sob a licença MIT. Isso significa que você pode usar, copiar, modificar e distribuir este código para qualquer finalidade, inclusive comercial, desde que mantenha os créditos ao autor original.
+
 
