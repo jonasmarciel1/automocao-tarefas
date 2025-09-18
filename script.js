@@ -17,6 +17,9 @@ const THEME_KEY = 'theme'; // 'light' | 'dark' | 'auto'
 let tasks = [];
 let filter = localStorage.getItem(FILTER_KEY) || 'todas';
 
+// ====== Constantes ======
+const PRIORITIES = ['low', 'medium', 'high'];
+
 // ====== Util ======
 const uid = () => crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random());
 const byFilter = t => filter === 'todas' ? true : filter === 'pendentes' ? !t.done : t.done;
@@ -54,6 +57,8 @@ function render() {
     const li = document.createElement('li');
     li.className = `task${task.done ? ' done' : ''}`;
     li.dataset.id = task.id;
+    li.dataset.priority = task.priority;
+    li.draggable = true;
 
     // checkbox
     const check = document.createElement('input');
@@ -74,6 +79,14 @@ function render() {
     });
     span.addEventListener('blur', () => finishEdit(task.id, span));
 
+    // botão de prioridade
+    const priorityBtn = document.createElement('button');
+    priorityBtn.className = 'priority-btn';
+    priorityBtn.classList.add(`p-${task.priority}`);
+    priorityBtn.title = `Prioridade: ${task.priority}. Clique para alterar.`;
+    priorityBtn.setAttribute('aria-label', `Alterar prioridade da tarefa: ${task.text}`);
+    priorityBtn.addEventListener('click', () => cyclePriority(task.id));
+
     // delete
     const del = document.createElement('button');
     del.className = 'del';
@@ -81,7 +94,7 @@ function render() {
     del.textContent = 'Excluir';
     del.addEventListener('click', () => removeTask(task.id));
 
-    li.append(check, span, del);
+    li.append(check, span, priorityBtn, del);
     frag.appendChild(li);
   });
   els.list.appendChild(frag);
@@ -109,7 +122,6 @@ function finishEdit(id, span) {
   span.contentEditable = 'false';
   const newText = span.textContent.trim();
   if (!newText) {
-    // se apagar tudo, remove a tarefa
     removeTask(id);
     return;
   }
@@ -119,7 +131,6 @@ function finishEdit(id, span) {
     save();
     render();
   } else {
-    // Só limpa estado de edição
     delete span.dataset.old;
   }
 }
@@ -128,7 +139,13 @@ function finishEdit(id, span) {
 function addTask() {
   const text = els.input.value.trim();
   if (!text) return;
-  tasks.unshift({ id: uid(), text, done: false, createdAt: Date.now() });
+  tasks.unshift({
+    id: uid(),
+    text,
+    done: false,
+    createdAt: Date.now(),
+    priority: 'medium'
+  });
   els.input.value = '';
   save();
   render();
@@ -157,14 +174,23 @@ function clearAll() {
   render();
 }
 
+function cyclePriority(id) {
+    const task = tasks.find(t => t.id === id);
+    if (!task) return;
+    const currentIndex = PRIORITIES.indexOf(task.priority || 'medium');
+    const nextIndex = (currentIndex + 1) % PRIORITIES.length;
+    task.priority = PRIORITIES[nextIndex];
+    save();
+    render();
+}
+
 // ====== Tema ======
 function applyTheme(mode) {
-  document.documentElement.setAttribute('data-theme', mode); // 'light' | 'dark' | 'auto'
+  document.documentElement.setAttribute('data-theme', mode);
   localStorage.setItem(THEME_KEY, mode);
-  // Feedback no botão
   const label = mode === 'light' ? 'Tema: claro'
-              : mode === 'dark'  ? 'Tema: escuro'
-              : 'Tema: automático';
+          : mode === 'dark'  ? 'Tema: escuro'
+          : 'Tema: automático';
   els.theme.setAttribute('aria-label', `Alternar tema (${label})`);
   els.theme.title = `Clique para alternar — ${label}`;
 }
@@ -195,9 +221,77 @@ els.filters.addEventListener('click', e => {
 
 els.theme.addEventListener('click', cycleTheme);
 
+// ====== Eventos Drag and Drop ======
+let draggedItemId = null;
+
+els.list.addEventListener('dragstart', e => {
+    const li = e.target.closest('li.task');
+    if (!li) return;
+    draggedItemId = li.dataset.id;
+    setTimeout(() => li.style.opacity = '0.5', 0);
+});
+
+els.list.addEventListener('dragover', e => {
+    e.preventDefault();
+    const li = e.target.closest('li.task');
+    if (!li || li.dataset.id === draggedItemId) return;
+    
+    const rect = li.getBoundingClientRect();
+    const isAfter = e.clientY > rect.top + rect.height / 2;
+    const draggedElement = els.list.querySelector(`[data-id="${draggedItemId}"]`);
+
+    if (draggedElement) {
+        if (isAfter) {
+            li.after(draggedElement);
+        } else {
+            li.before(draggedElement);
+        }
+    }
+});
+
+els.list.addEventListener('dragend', e => {
+    const li = e.target.closest(`[data-id="${draggedItemId}"]`);
+    if (li) {
+        li.style.opacity = '1';
+    }
+    draggedItemId = null;
+});
+
+els.list.addEventListener('drop', e => {
+    e.preventDefault();
+    if (draggedItemId) {
+        const newOrderIds = [...els.list.querySelectorAll('li.task')].map(li => li.dataset.id);
+        tasks.sort((a, b) => newOrderIds.indexOf(a.id) - newOrderIds.indexOf(b.id));
+        save();
+    }
+});
+
 // ====== Init ======
 (function init() {
   load();
   initTheme();
-  setFilter(filter); // isto chama render()
+  setFilter(filter);
 })();
+
+// ====== Lógica do Modal de Ajuda ======
+const helpBtn = document.getElementById('helpBtn');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const modal = document.getElementById('modalAjuda');
+
+function openModal() {
+  modal.classList.remove('hidden');
+}
+
+function closeModal() {
+  modal.classList.add('hidden');
+}
+
+helpBtn.addEventListener('click', openModal);
+closeModalBtn.addEventListener('click', closeModal);
+
+// Fecha o modal se clicar fora dele
+modal.addEventListener('click', (event) => {
+  if (event.target === modal) {
+    closeModal();
+  }
+});

@@ -9,13 +9,26 @@
   <link rel="icon" href="assets/favicon.svg" />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <header class="topbar container">
-    <h1 class="brand">Minhas <span class="accent">Tarefas</span></h1>
-    <div class="top-actions">
-      <button id="alternarTema" class="icon-btn" aria-label="Alternar tema">🌓</button>
-    </div>
-  </header>
+<header class="topbar container">
+  <h1 class="brand">Minhas <span class="accent">Tarefas</span></h1>
+  <div class="top-actions">
+    <button id="helpBtn" class="icon-btn" aria-label="Ajuda">?</button> <button id="alternarTema" class="icon-btn" aria-label="Alternar tema">🌓</button>
+  </div>
+</header>
+
+<div id="modalAjuda" class="modal-overlay hidden">
+  <div class="modal-content">
+    <button id="closeModalBtn" class="close-btn" aria-label="Fechar">&times;</button>
+    <h2>Como usar</h2>
+    <p>Organize suas tarefas de forma eficiente:</p>
+    <ul>
+      <li><strong>Prioridades:</strong> Clique no botão colorido para alternar entre prioridade Alta (🔴), Média (🟡) e Baixa (🔵).</li>
+      <li><strong>Reordenar:</strong> Clique e arraste uma tarefa para mudar sua posição na lista.</li>
+      <li><strong>Editar:</strong> Dê um duplo clique no texto de uma tarefa para editá-la.</li>
+      <li><strong>Concluir:</strong> Marque a caixa de seleção para marcar uma tarefa como concluída.</li>
+    </ul>
+  </div>
+</div>
 
   <main class="container app">
     <section class="composer card" aria-labelledby="titulo-app">
